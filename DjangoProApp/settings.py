@@ -19,7 +19,11 @@ CSRF_TRUSTED_ORIGINS= env.list("CSRF_TRUSTED_ORIGINS")
 
 CORS_ALLOWED_ORIGINS= env.list("CORS_ALLOWED_ORIGINS")
 
+AUTH_USER_MODEL = "accounts.CustomUser"
 
+LOGIN_REDIRECT_URL = "home"
+
+LOGOUT_REDIRECT_URL = "home" 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,6 +42,7 @@ INSTALLED_APPS = [
     
     #** Local apps
     "pages",
+    "accounts",
 
 ]
 
@@ -79,12 +84,15 @@ WSGI_APPLICATION = 'DjangoProApp.wsgi.application'
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+"default": {
+    "ENGINE": "django.db.backends.postgresql",
+    'NAME': 'django_app',
+    "USER": "postgres",
+    "PASSWORD": "django_app",
+    "HOST": "db", # set in docker-compose.yml
+    "PORT": 5432, # default postgres port
     }
 }
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -123,11 +131,12 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 TIME_ZONE = "Asia/Kolkata"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': [

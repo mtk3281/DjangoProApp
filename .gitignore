@@ -6,3 +6,4 @@ migrations/
 venv/
 *.yml
 venv/
+staticfiles/
