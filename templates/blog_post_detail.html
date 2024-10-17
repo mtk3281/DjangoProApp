@@ -1,0 +1,75 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% load custom_filters %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ post.title }} - Blog Post Detail{% endblock %}
+
+{% block content %}
+<header class="masthead" style="background-image: url('{% if post.image %}{{ post.image.url }}{% else %}{% static 'assets/img/post-bg.jpg' %}{% endif %}');">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="post-heading">
+                    <h1>{{ post.title }}</h1>
+                    <h2 class="subheading">{{ post.subtitle }}</h2>
+                    <span class="meta">
+                        Posted by
+                        <a href="#!">{{ post.author.username }}</a>
+                        on {{ post.created_at|date:"F j, Y" }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content-->
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <p>{{ post.content|safe }}</p> <!-- Assuming post.content contains the blog text -->
+                {% for image in post.images.all %}  <!-- Loop through associated images -->
+                    <a href="#!"><img class="img-fluid" src="{{ image.url }}" alt="{{ image.alt_text }}" /></a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- Display Comments -->
+<div class="container px-4 px-lg-5">
+    <h2>Comments ({{ comments.count }})</h2>
+    <div class="comments mb-4">
+        {% for comment in comments %}
+            <div class="comment mb-3 p-3 border rounded shadow-sm">
+                <p class="font-weight-bold">{{ comment.name }}</p>
+                <p class="text-muted">{{ comment.email }} on {{ comment.created|date:"F j, Y" }}</p>
+                <p>{{ comment.body }}</p>
+            </div>
+        {% empty %}
+            <p class="text-muted">No comments yet. Be the first to comment!</p>
+        {% endfor %}
+    </div>
+
+    <h2>Add a New Comment</h2>
+    <form action="{{ post.get_absolute_url }}" method="post" class="shadow p-4 rounded bg-light">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_name" class="form-label">Name</label>
+            <input type="text" name="name" id="id_name" placeholder="Enter your name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Email</label>
+            <input type="email" name="email" id="id_email" placeholder="Enter your email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_body" class="form-label">Comment</label>
+            <textarea name="body" id="id_body" rows="4" placeholder="Write your comment here" class="form-control" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Add Comment</button>
+    </form>
+</div>
+
+{% endblock %}

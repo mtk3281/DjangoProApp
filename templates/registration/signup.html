@@ -1,21 +1,42 @@
 <!-- templates/registration/signup.html -->
 {% extends "base.html" %}
+{% load static %}
 
 {% load crispy_forms_tags %}
 
 {% block title %}Sign Up{% endblock title %}
+
+{% block navcontent %}
+    <a class="navbar-brand" href="{% url 'home' %}">Go back</a>
+{% endblock navcontent %}
+
+
 {% block content %}
-    <div class="container">
-        <h2>Sign Up</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form|crispy }}  <!-- Use crispy template tag for styling -->
-            {% if form.password1.errors %}
-                <div class="alert alert-danger">
-                    {{ form.password1.errors.as_text }}
+    <header class="masthead" style="background-image: url('{% static bgimage %}')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="page-heading">
+                        <main class="mb-4">
+                            <div class="container px-4 px-lg-5">
+                                    <div class="container">
+                                        <h2>Sign Up</h2>
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            {{ form|crispy }}  <!-- Use crispy template tag for styling -->
+                                            {% if form.password1.errors %}
+                                                <div class="alert alert-danger">
+                                                    {{ form.password1.errors.as_text }}
+                                                </div>
+                                            {% endif %}
+                                            <button type="submit" class="btn btn-success" >Sign Up</button>  <!-- Optional: add Bootstrap classes for button -->
+                                        </form>
+                                    </div>
+                            </div>
+                        </main>
+                    </div>
                 </div>
-            {% endif %}
-            <button type="submit" class="btn btn-success" >Sign Up</button>  <!-- Optional: add Bootstrap classes for button -->
-        </form>
-    </div>
-{% endblock content %}
+            </div>
+        </div>
+    </header>
+{% endblock %}
