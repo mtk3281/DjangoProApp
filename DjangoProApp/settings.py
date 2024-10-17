@@ -86,16 +86,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'DjangoProApp.wsgi.application'
 
 
-
 DATABASES = {
 "default": {
     "ENGINE": "django.db.backends.postgresql",
-    'NAME': 'django_app',
+    "NAME": "django_app",
     "USER": "postgres",
     "PASSWORD": "django_app",
-    "HOST": "db", # set in docker-compose.yml
-    "PORT": 5432, # default postgres port
-    }
+    "HOST": "db",
+    "PORT": 5432,
+   }
 }
 
 

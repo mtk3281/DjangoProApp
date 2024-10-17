@@ -7,20 +7,22 @@ services:
     volumes:
       - .:/app
     environment:
-        SECRET_KEY: ${SECRET_KEY}
-        DEBUG: ${DEBUG}
-        ALLOWED_HOSTS: ${ALLOWED_HOSTS}
-        CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS}
-        CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS}
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: ${DEBUG}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS}
     depends_on:
       - db
-  
+
   db:
     image: postgres:13
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: django_app
+      POSTGRES_DB: django_app
 
 volumes:
   postgres_data:
